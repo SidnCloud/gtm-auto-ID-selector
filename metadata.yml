@@ -1,0 +1,4 @@
+homepage: "https://www.sidn.es/"
+versions:
+  - sha: 5840da27bcde697154983cb0b4681364c43a048a
+    changeNotes: Initial release.
