@@ -1,5 +1,5 @@
 homepage: "https://www.sidn.es/"
-documentation: "https://github.com/SidnCloud/gtm-auto-ID-selector/blob/master/README.md"
+documentation: "https://datalitica.es/gtm-custom-variable-seleccionar-identificador-de-destino/"
 versions:
   # Latest version
   - sha: eb76700f4b87ca14ba50880f9703f4d1be5a6988
