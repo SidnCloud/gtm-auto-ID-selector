@@ -1,4 +1,5 @@
 homepage: "https://www.sidn.es/"
+documentation: "https://github.com/SidnCloud/gtm-auto-ID-selector/blob/master/README.md"
 versions:
   - sha: 92a417dbe9e7251e3cb686a11a715af26cfb4900
     changeNotes: Update Readme. 
