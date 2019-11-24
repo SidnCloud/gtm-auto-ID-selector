@@ -3,6 +3,16 @@
 This variable was created for select the correct ID to send the information of hits or pixels. It can compare between debug mode and live mode, production domains or test domains and decide what it's the best ID for this condition.
 The result of this Template it's return the identifier to use at any time according to the configuration.
 
+## Author
+
+Roberto Quesada from SIDN and Datalítica (https://datalitica.es/)
+
+## Release Notes
+	
+| Date  | Notes |
+|-------|-------|
+| 23 November 2019  | First version of the variable released. |
+
 ## Before start.
  
 To use this template you need enable/use 2 GTM variables:
