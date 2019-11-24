@@ -13,7 +13,7 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "ID Auto - Debug or Live",
+  "displayName": "SIDN - Debug or Live ID",
   "description": "Select the identifier of the main account or debug based on host conditions and preview\nYou sould active Debug Mode variable and create constants ID to select",
   "categories": ["UTILITY"],
   "containerContexts": [
@@ -27,7 +27,7 @@ ___TEMPLATE_PARAMETERS___
 [
   {
     "type": "TEXT",
-    "name": "id_principal",
+    "name": "idPrincipal",
     "displayName": "Primary ID of the destination account",
     "simpleValueType": true,
     "canBeEmptyString": false,
@@ -36,16 +36,15 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "TEXT",
-    "name": "id_debug",
+    "name": "idDebug",
     "displayName": "Debug ID of the destination account",
     "simpleValueType": true,
-    "valueValidators": [],
     "alwaysInSummary": true,
     "help": "Select the debug ID of your account destination"
   },
   {
     "type": "SIMPLE_TABLE",
-    "name": "listado_host",
+    "name": "listadoHost",
     "displayName": "Host list of LIVE version",
     "simpleTableColumns": [
       {
@@ -61,18 +60,18 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "CHECKBOX",
-    "name": "debug_activo",
+    "name": "debugActivo",
     "checkboxText": "Active in Debug Mode?",
     "simpleValueType": true
   },
   {
     "type": "GROUP",
-    "name": "configuracion_interna",
+    "name": "configuracionInterna",
     "displayName": "Internal configuration",
     "subParams": [
       {
         "type": "TEXT",
-        "name": "debug_mode",
+        "name": "debugMode",
         "displayName": "Debug Mode",
         "simpleValueType": true,
         "alwaysInSummary": true,
@@ -81,7 +80,7 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "TEXT",
-        "name": "url_host",
+        "name": "urlHost",
         "displayName": "Select Page Host",
         "simpleValueType": true,
         "alwaysInSummary": true,
@@ -97,44 +96,18 @@ ___TEMPLATE_PARAMETERS___
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 // Introduzca aquí su código de plantilla.
-const log = require('logToConsole');
-var res=data.id_principal;
-if(data.listado_host){
- for(var i=0;i<data.listado_host.length ;i++){
-   if(data.listado_host[i].host==data.url_host){
-   	res=data.id_debug;
+var res=data.idPrincipal;
+if(data.listadoHost){
+ for(var i=0;i<data.listadoHost.length ;i++){
+   if(data.listadoHost[i].host==data.urlHost){
+   	res=data.idDebug;
    }
  }
 }
-log(data.url_host);
-if(data.debug_activo && data.debug_mode){ 
+if(data.debugActivo && data.debugMode){ 
   res=data.id_debug;
 }
 return res;
-
-
-___WEB_PERMISSIONS___
-
-[
-  {
-    "instance": {
-      "key": {
-        "publicId": "logging",
-        "versionId": "1"
-      },
-      "param": [
-        {
-          "key": "environments",
-          "value": {
-            "type": 1,
-            "string": "debug"
-          }
-        }
-      ]
-    },
-    "isRequired": true
-  }
-]
 
 
 ___TESTS___
