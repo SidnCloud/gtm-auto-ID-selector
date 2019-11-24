@@ -2,8 +2,10 @@ homepage: "https://www.sidn.es/"
 documentation: "https://datalitica.es/gtm-custom-variable-seleccionar-identificador-de-destino/"
 versions:
   # Latest version
+  - sha: d494bdabea605fb8f93b1cbead6da8a48b181a30
+    changeNotes: Update license. 
+  # Older versions
   - sha: eb76700f4b87ca14ba50880f9703f4d1be5a6988
     changeNotes: Update Readme. 
-  # Older versions
   - sha: 9c91673da1ac20b4fb19e4c607e516bbf970f697
     changeNotes: Initial release.
