@@ -1,11 +1,13 @@
-homepage: "https://www.sidn.es/"
+homepage: "https://datalitica.es/"
 documentation: "https://datalitica.es/gtm-custom-variable-seleccionar-identificador-de-destino/"
 versions:
   # Latest version
+  - sha: 923a0b7bdbcd749a0008b7ce43cf0aa7a04b0ef1
+    changeNotes: Update template adding categories
+  # Older version
   - sha: d494bdabea605fb8f93b1cbead6da8a48b181a30
-    changeNotes: Update license. 
-  # Older versions
+    changeNotes: Update license
   - sha: eb76700f4b87ca14ba50880f9703f4d1be5a6988
-    changeNotes: Update Readme. 
+    changeNotes: Update Readme
   - sha: 9c91673da1ac20b4fb19e4c607e516bbf970f697
-    changeNotes: Initial release.
+    changeNotes: Initial release
