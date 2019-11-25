@@ -13,9 +13,9 @@ ___INFO___
   "id": "cvt_temp_public_id",
   "version": 1,
   "securityGroups": [],
-  "displayName": "SIDN - Debug or Live ID",
-  "description": "Select the identifier of the main account or debug based on host conditions and preview\nYou sould active Debug Mode variable and create constants ID to select",
-  "categories": ["UTILITY"],
+  "displayName": "Start-Expired Date",
+  "categories": ["UTILITY","TAG_MANAGEMENT"],
+  "description": "Activate variable when the date is valid or expired.",
   "containerContexts": [
     "WEB"
   ]
@@ -26,97 +26,123 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "type": "TEXT",
-    "name": "idPrincipal",
-    "displayName": "Primary ID of the destination account",
-    "simpleValueType": true,
-    "canBeEmptyString": false,
-    "help": "Select the primary ID of your account destination",
-    "alwaysInSummary": true
-  },
-  {
-    "type": "TEXT",
-    "name": "idDebug",
-    "displayName": "Debug ID of the destination account",
-    "simpleValueType": true,
-    "alwaysInSummary": true,
-    "help": "Select the debug ID of your account destination"
-  },
-  {
-    "type": "SIMPLE_TABLE",
-    "name": "listadoHost",
-    "displayName": "Host list of LIVE version",
-    "simpleTableColumns": [
+    "type": "SELECT",
+    "name": "fecha_actual",
+    "displayName": "Today",
+    "macrosInSelect": true,
+    "selectItems": [
       {
-        "defaultValue": "",
-        "displayName": "Host",
-        "name": "host",
-        "type": "TEXT"
+        "value": "{{JS - getDateNow}}",
+        "displayValue": "Hoy"
       }
     ],
-    "help": "Add all the host in Live version wich should be use the Primary ID",
-    "alwaysInSummary": true,
-    "newRowButtonText": "Add Host"
+    "simpleValueType": true,
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY",
+        "errorMessage": "Write anything"
+      },
+      {
+        "type": "REGEX",
+        "args": [
+          "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))"
+        ],
+        "errorMessage": "Set date with format YYYY-MM-dd"
+      }
+    ],
+    "help": "Set today"
   },
   {
-    "type": "CHECKBOX",
-    "name": "debugActivo",
-    "checkboxText": "Active in Debug Mode?",
+    "type": "RADIO",
+    "name": "control",
+    "displayName": "Set date action",
+    "radioItems": [
+      {
+        "value": "inicio",
+        "displayValue": "Init at"
+      },
+      {
+        "value": "fin",
+        "displayValue": "End at"
+      }
+    ],
     "simpleValueType": true
   },
   {
-    "type": "GROUP",
-    "name": "configuracionInterna",
-    "displayName": "Internal configuration",
-    "subParams": [
+    "type": "SELECT",
+    "name": "fecha_control",
+    "displayName": "Control Date (include)",
+    "macrosInSelect": true,
+    "selectItems": [
       {
-        "type": "TEXT",
-        "name": "debugMode",
-        "displayName": "Debug Mode",
-        "simpleValueType": true,
-        "alwaysInSummary": true,
-        "help": "Select Debug Mode",
-        "defaultValue": "{{Debug Mode}}"
-      },
-      {
-        "type": "TEXT",
-        "name": "urlHost",
-        "displayName": "Select Page Host",
-        "simpleValueType": true,
-        "alwaysInSummary": true,
-        "defaultValue": "{{Page Hostname}}"
+        "value": "{{FECHA - Caducidad 1}}",
+        "displayValue": "{{FECHA - Caducidad 1}}"
       }
     ],
-    "groupStyle": "ZIPPY_CLOSED",
-    "help": "Acitve Debug Mode and Page Host"
+    "simpleValueType": true,
+    "valueValidators": [
+      {
+        "type": "NON_EMPTY",
+        "errorMessage": "Write something"
+      },
+      {
+        "type": "REGEX",
+        "args": [
+          "([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))"
+        ],
+        "errorMessage": "Set date with format YYYY-MM-dd"
+      }
+    ],
+    "alwaysInSummary": true,
+    "help": "Set control Date"
   }
 ]
 
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-// Introduzca aquí su código de plantilla.
-var res=data.idPrincipal;
-if(data.listadoHost){
- for(var i=0;i<data.listadoHost.length ;i++){
-   if(data.listadoHost[i].host==data.urlHost){
-   	res=data.idDebug;
-   }
- }
+var res =true;
+if(data.control=="inicio"){  
+  if(data.fecha_control>data.fecha_actual){
+   res =false; 
+  }
 }
-if(data.debugActivo && data.debugMode){ 
-  res=data.id_debug;
+else if(data.control=="fin"){
+  if(data.fecha_control<data.fecha_actual){
+   res =false; 
+  }
 }
 return res;
 
 
 ___TESTS___
 
-scenarios: []
+scenarios:
+- name: Validación - En vigor
+  code: |-
+    // Call runCode to run the template's code.
+    data.fecha_control="2019-11-11";
+    data.fecha_actual="2019-30-11";
+    data.control="inicio";
+    let variableResult = runCode();
+
+    // Verify that the variable returns a result.
+    assertThat(variableResult).isNotEqualTo("true");
+- name: Validación - Caducado
+  code: |-
+    // Call runCode to run the template's code.
+    data.fecha_control="2019-11-11";
+    data.fecha_actual="2019-30-11";
+    data.control="inicio";
+    let variableResult = runCode();
+
+    // Verify that the variable returns a result.
+    assertThat(variableResult).isNotEqualTo("false");
+setup: ''
 
 
 ___NOTES___
 
-Created on 24/11/2019 4:15:30
+Created on 25/11/2019 12:26:44
 
 
